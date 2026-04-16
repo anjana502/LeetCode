@@ -3,7 +3,7 @@ class Codec:
         s = ""
 
         for i in strs:
-            d = "{:4}".format(str(len(i)))
+            d = "{:3}".format(str(len(i)))
             s += (d + i)
         
         return s
@@ -14,8 +14,8 @@ class Codec:
         n = 0
 
         while (i < len(s)):
-            n = int(s[i: i + 4])
-            i += 4
+            n = int(s[i: i + 3])
+            i += 3
             s1 = s[i: i + n]
             ls.append(s1)
             i += n
