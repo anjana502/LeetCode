@@ -3,18 +3,18 @@ class Solution:
         if (numerator == 0):
             return "0"
         
-        sign1 = 1 if (numerator > 0) else -1
-        sign2 = 1 if (denominator > 0) else -1
         ls = []
-
-        if (sign1 * sign2 == -1):
-            ls.append("-")
-        
+        flag1 = 1 if (numerator > 0) else -1
+        flag2 = 1 if (denominator > 0) else -1
         numerator = abs(numerator)
         denominator = abs(denominator)
 
-        ls.append(str(numerator // denominator))
+        if (flag1 * flag2 < 0):
+            ls.append("-")
+        
+        q = numerator // denominator
         r = numerator % denominator
+        ls.append(str(q))
 
         if (r == 0):
             s = "".join(ls)
@@ -22,19 +22,22 @@ class Solution:
             return s
         
         ls.append(".")
+        p = len(ls)
         d = {}
+        d[r] = p
 
         while (r != 0):
-            d[r] = len(ls)
-            r *= 10
-            ls.append(str(r // denominator))
-            r1 = r % denominator
+            n = r * 10
+            q = n // denominator
+            r1 = n % denominator
+            ls.append(str(q))
 
             if (r1 in d):
                 ls.insert(d[r1], "(")
                 ls.append(")")
                 break
             
+            d[r1] = len(ls)
             r = r1
         
         s = "".join(ls)
