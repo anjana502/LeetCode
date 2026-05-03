@@ -2,33 +2,38 @@ from collections import deque
 
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
+        q = deque([])
+        s = set()
         deadends = set(deadends)
 
         if ("0000" in deadends):
             return -1
         
-        q = deque([])
         q.append(("0000", 0))
-        s = set()
         s.add("0000")
 
         while (len(q) != 0):
-            code, d = q.popleft()
+            word, d = q.popleft()
 
-            if (code == target):
+            if (word == target):
                 return d
             
-            for i in range(len(code)):
-                new_code = code[:i] + str((int(code[i]) + 1) % 10) + code[i + 1:]
+            for i in range(len(word)):
+                new_word = word[:i] + str((int(word[i]) + 1) % 10) + word[i + 1:]
 
-                if ((new_code not in deadends) and (new_code not in s)):
-                    q.append((new_code, d + 1))
-                    s.add((new_code))
+                if ((new_word in s) or (new_word in deadends)):
+                    continue
+                
+                q.append((new_word, d + 1))
+                s.add(new_word)
+            
+            for i in range(len(word)):
+                new_word = word[:i] + str((int(word[i]) - 1) % 10) + word[i + 1:]
 
-                new_code = code[:i] + str((int(code[i]) - 1) % 10) + code[i + 1:]
-
-                if ((new_code not in deadends) and (new_code not in s)):
-                    q.append((new_code, d + 1))
-                    s.add((new_code))
+                if ((new_word in s) or (new_word in deadends)):
+                    continue
+                
+                q.append((new_word, d + 1))
+                s.add(new_word)
         
         return -1
